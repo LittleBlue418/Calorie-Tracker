@@ -41,6 +41,9 @@ const ItemCtrl = (function(){
 
 // UI CONTROLLER
 const UICtrl = (function(){
+  const UISelectors = {
+    itemList: '#item-list'
+  }
 
   // Public Methods
   return {
@@ -57,7 +60,7 @@ const UICtrl = (function(){
       });
 
       // Insert list items to html
-      document.getElementById('item-list').innerHTML = html;
+      document.querySelector(UISelectors.itemList).innerHTML = html;
     }
   }
 
