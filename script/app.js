@@ -97,6 +97,8 @@ const UICtrl = (function(){
     },
 
     addListItem: function(item){
+      // Show the list
+      document.querySelector(UISelectors.itemList).style.display = 'block';
       // Create li element
       const li = document.createElement('li');
       // Add class
@@ -115,6 +117,10 @@ const UICtrl = (function(){
     clearInput: function() {
       document.querySelector(UISelectors.itemNameInput).value = '';
       document.querySelector(UISelectors.itemCaloriesInput).value = '';
+    },
+
+    hideList: function(){
+      document.querySelector(UISelectors.itemList).style.display = 'none';
     },
 
     getSelectors: function(){
@@ -167,8 +173,15 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
       // Fetch items from data structure
       const items = ItemCtrl.getItems();
 
-      // Populate list with items
-      UICtrl.populateItemList(items);
+      // Check if any items
+      if(items.length === 0){
+          UICtrl.hideList();
+      } else {
+          // Populate list with items
+          UICtrl.populateItemList(items);
+      }
+
+
 
       // Load event listeners
       loadEventListeners();
