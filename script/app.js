@@ -16,9 +16,9 @@ const ItemCtrl = (function(){
   // Data Structure / State
   const data = {
     items: [
-      {id: 0, name: 'Steak Dinner', calories: 720},
-      {id: 1, name: 'Leamonaid', calories: 120},
-      {id: 2, name: 'Ice Cream', calories: 320},
+      // {id: 0, name: 'Steak Dinner', calories: 720},
+      // {id: 1, name: 'Leamonaid', calories: 120},
+      // {id: 2, name: 'Ice Cream', calories: 320},
     ],
     currentItem: null,
     totalCalories: 0
@@ -112,6 +112,11 @@ const UICtrl = (function(){
       document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li)
     },
 
+    clearInput: function() {
+      document.querySelector(UISelectors.itemNameInput).value = '';
+      document.querySelector(UISelectors.itemCaloriesInput).value = '';
+    },
+
     getSelectors: function(){
       return UISelectors;
     }
@@ -135,6 +140,7 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
       document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
   }
 
+
   // Add item submit
   const itemAddSubmit = function(e){
     e.preventDefault();
@@ -149,6 +155,9 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
 
         // Add item to the UI list
         UICtrl.addListItem(newItem);
+
+        // Clear fields
+        UICtrl.clearInput();
     }
   }
 
