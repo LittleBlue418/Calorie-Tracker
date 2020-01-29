@@ -212,7 +212,7 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
       document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
 
       // Edit icon click event
-      document.querySelector(UISelectors.itemList).addEventListener('click', itemUpdateSubmit);
+      document.querySelector(UISelectors.itemList).addEventListener('click', itemEditClick);
   }
 
 
@@ -243,7 +243,7 @@ const AppCtrl = (function(ItemCtrl, UICtrl){
   }
 
   // Update item submit
-  const itemUpdateSubmit = function(e){
+  const itemEditClick = function(e){
     e.preventDefault();
 
     // Target the specific icon
