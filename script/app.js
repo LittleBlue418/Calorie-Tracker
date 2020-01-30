@@ -245,7 +245,7 @@ const UICtrl = (function () {
 // APP CONTROLLER
 const AppCtrl = (function (ItemCtrl, UICtrl) {
 
-  // Load event listeners
+  // Event Listeners
   const loadEventListeners = function () {
     // Get UI Selectors
     const UISelectors = UICtrl.getSelectors();
@@ -266,6 +266,9 @@ const AppCtrl = (function (ItemCtrl, UICtrl) {
 
     // Update item event
     document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit);
+
+    // Update item event
+    document.querySelector(UISelectors.backBtn).addEventListener('click', UICtrl.clearEditState);
   }
 
 
