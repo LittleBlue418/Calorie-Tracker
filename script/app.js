@@ -84,6 +84,19 @@ const ItemCtrl = (function () {
       return found;
     },
 
+    deleteItem: function (id){
+      // Get ids
+      const ids = data.items.map(function(item){
+        return item.id;
+      });
+
+      // get index
+      const index = ids.indexOf(id);
+
+      // Remove item
+      data.items.splice(index, 1);
+    },
+
     setCurrentItem: function (item) {
       data.currentItem = item
     },
@@ -195,6 +208,12 @@ const UICtrl = (function () {
 
     },
 
+    deleteListItem: function (id){
+      const itemID = `#item-${id}`
+      const item = document.querySelector(itemID);
+      item.remove();
+    },
+
     clearInput: function () {
       document.querySelector(UISelectors.itemNameInput).value = '';
       document.querySelector(UISelectors.itemCaloriesInput).value = '';
@@ -267,12 +286,15 @@ const AppCtrl = (function (ItemCtrl, UICtrl) {
     // Update item event
     document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit);
 
-    // Update item event
+    // Back button event
     document.querySelector(UISelectors.backBtn).addEventListener('click', UICtrl.clearEditState);
+
+    // Delete item event
+    document.querySelector(UISelectors.deleteBtn).addEventListener('click', itemDeleteSubmit);
   }
 
 
-  // Add item submit
+  // Add item
   const itemAddSubmit = function (e) {
     e.preventDefault();
 
@@ -298,7 +320,7 @@ const AppCtrl = (function (ItemCtrl, UICtrl) {
     }
   }
 
-  // Click the edit button on an added item
+  // Click the edit button on an item
   const itemEditClick = function (e) {
     e.preventDefault();
 
@@ -346,6 +368,28 @@ const AppCtrl = (function (ItemCtrl, UICtrl) {
 
     UICtrl.clearEditState();
 
+  }
+
+  // Delete an Item
+  const itemDeleteSubmit = function(e) {
+    e.preventDefault();
+
+    // Get current item
+    const currentItem = ItemCtrl.getCurrentItem();
+
+    // Delete from data structure
+    ItemCtrl.deleteItem(currentItem.id);
+
+    // Delete from the UI
+    UICtrl.deleteListItem(currentItem.id);
+
+    // Get total calories
+    const totalCalories = ItemCtrl.getTotalCalories();
+
+    // Add total calories to the UI
+    UICtrl.showTotalCalories(totalCalories);
+
+    UICtrl.clearEditState();
   }
 
   // Public Methods
