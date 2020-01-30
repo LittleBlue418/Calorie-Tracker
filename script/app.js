@@ -1,4 +1,47 @@
 // STORAGE CONTROLLER
+const StorageCtrl = (function(){
+
+  // Public methods
+  return {
+
+    storeItem: function(item) {
+
+      // Our empty initializing array
+      let items;
+
+      // Check to see if any items in local storage
+      if(localStorage.getItem('items') === null){
+        items = [];
+
+        // Push new item
+        items.push(item);
+
+        // Set local Storage
+        localStorage.setItem('items', JSON.stringify(items));
+      } else {
+        // If there is already something in local storage
+        items = JSON.parse(localStorage.getItem('items'));
+
+        // Push the new item
+        items.push(item);
+
+        // Re set local storage
+        localStorage.setItem('items', JSON.stringify(items));
+      }
+    },
+
+    getItemsFromStorage: function() {
+      let items;
+      if(localStorage.getItem('items') === null){
+        items = [];
+      } else {
+        items = JSON.parse(localStorage.getItem('items'));
+      }
+      return items;
+    }
+
+  }
+})();
 
 
 
@@ -15,11 +58,7 @@ const ItemCtrl = (function () {
 
   // Data Structure / State
   const data = {
-    items: [
-      // {id: 0, name: 'Steak Dinner', calories: 720},
-      // {id: 1, name: 'Leamonaid', calories: 120},
-      // {id: 2, name: 'Ice Cream', calories: 320},
-    ],
+    items: StorageCtrl.getItemsFromStorage(),
     currentItem: null,
     totalCalories: 0
   }
@@ -281,7 +320,7 @@ const UICtrl = (function () {
 
 
 // APP CONTROLLER
-const AppCtrl = (function (ItemCtrl, UICtrl) {
+const AppCtrl = (function (StorageCtrl, ItemCtrl, UICtrl) {
 
   // Event Listeners
   const loadEventListeners = function () {
@@ -336,7 +375,10 @@ const AppCtrl = (function (ItemCtrl, UICtrl) {
       const totalCalories = ItemCtrl.getTotalCalories();
 
       // Add total calories to the UI
-      UICtrl.showTotalCalories(totalCalories)
+      UICtrl.showTotalCalories(totalCalories);
+
+      // Store in local Storage
+      StorageCtrl.storeItem(newItem);
 
       // Clear fields
       UICtrl.clearInput();
@@ -471,7 +513,7 @@ const AppCtrl = (function (ItemCtrl, UICtrl) {
 
   }
 
-})(ItemCtrl, UICtrl);
+})(StorageCtrl, ItemCtrl, UICtrl);
 
 
 
